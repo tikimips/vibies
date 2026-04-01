@@ -1,5 +1,21 @@
 "use client";
+import { useState } from "react";
 export default function Home() {
+  const [email, setEmail] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setLoading(true);
+    await fetch("/api/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+    setSubmitted(true);
+    setLoading(false);
+  }
   return (
     <main className="min-h-screen" style={{ background: "#FFF8F0", fontFamily: "'Nunito', sans-serif" }}>
 
@@ -69,46 +85,67 @@ export default function Home() {
 
           {/* Email capture */}
           <div id="notify">
-            <form
-              style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}
-              onSubmit={(e) => e.preventDefault()}
-            >
-              <input
-                type="email"
-                placeholder="your@email.com"
-                style={{
-                  flex: 1,
-                  minWidth: "220px",
-                  padding: "14px 20px",
-                  borderRadius: "100px",
-                  border: "2px solid #ddd",
-                  fontSize: "15px",
-                  outline: "none",
-                  fontFamily: "'Nunito', sans-serif",
-                  background: "white",
-                }}
-              />
-              <button
-                type="submit"
-                style={{
-                  background: "#7BA7BC",
-                  color: "white",
-                  fontWeight: 900,
-                  fontSize: "15px",
-                  padding: "14px 28px",
-                  borderRadius: "100px",
-                  border: "none",
-                  cursor: "pointer",
-                  fontFamily: "'Nunito', sans-serif",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                Notify me
-              </button>
-            </form>
-            <p style={{ fontSize: "13px", color: "#aaa", marginTop: "10px" }}>
-              Be first to know when we launch. No spam, ever.
-            </p>
+            {submitted ? (
+              <div style={{
+                background: "#E8F8F2",
+                border: "2px solid #7BA7BC",
+                borderRadius: "16px",
+                padding: "20px 24px",
+                display: "inline-block",
+              }}>
+                <div style={{ fontSize: "28px", marginBottom: "6px" }}>🎉</div>
+                <p style={{ fontWeight: 900, fontSize: "18px", color: "#1a1a2e", margin: 0 }}>You're on the list!</p>
+                <p style={{ fontSize: "14px", color: "#666", marginTop: "4px", margin: 0 }}>We'll let you know the moment Vibies launches.</p>
+              </div>
+            ) : (
+              <>
+                <form
+                  style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}
+                  onSubmit={handleSubmit}
+                >
+                  <input
+                    type="email"
+                    placeholder="your@email.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    style={{
+                      flex: 1,
+                      minWidth: "220px",
+                      padding: "14px 20px",
+                      borderRadius: "100px",
+                      border: "2px solid #ddd",
+                      fontSize: "15px",
+                      outline: "none",
+                      fontFamily: "'Nunito', sans-serif",
+                      background: "white",
+                    }}
+                  />
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    style={{
+                      background: "#7BA7BC",
+                      color: "white",
+                      fontWeight: 900,
+                      fontSize: "15px",
+                      padding: "14px 28px",
+                      borderRadius: "100px",
+                      border: "none",
+                      cursor: "pointer",
+                      fontFamily: "'Nunito', sans-serif",
+                      whiteSpace: "nowrap",
+                      opacity: loading ? 0.7 : 1,
+                    }}
+                  >
+                    {loading ? "..." : "Notify me"}
+                  </button>
+                </form>
+                <p style={{ fontSize: "13px", color: "#aaa", marginTop: "10px" }}>
+                  Be first to know when we launch. No spam, ever.
+                </p>
+              </>
+            )}
           </div>
         </div>
 
