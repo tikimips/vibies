@@ -1,3 +1,4 @@
+"use client";
 export default function Home() {
   return (
     <main className="min-h-screen" style={{ background: "#FFF8F0", fontFamily: "'Nunito', sans-serif" }}>
