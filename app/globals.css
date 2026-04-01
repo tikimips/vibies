@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+:root {
+  --cream: #FFF8F0;
+  --soft-blue: #7BA7BC;
+  --warm-coral: #E8836A;
+  --deep: #1a1a2e;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--cream);
+  font-family: 'Nunito', sans-serif;
+  color: var(--deep);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(-2deg); }
+  50% { transform: translateY(-12px) rotate(2deg); }
+}
+
+@keyframes float2 {
+  0%, 100% { transform: translateY(0px) rotate(3deg); }
+  50% { transform: translateY(-8px) rotate(-1deg); }
+}
+
+@keyframes float3 {
+  0%, 100% { transform: translateY(0px) rotate(1deg); }
+  50% { transform: translateY(-16px) rotate(-3deg); }
+}
+
+.float-1 { animation: float 4s ease-in-out infinite; }
+.float-2 { animation: float2 5s ease-in-out infinite; }
+.float-3 { animation: float3 3.5s ease-in-out infinite; }
